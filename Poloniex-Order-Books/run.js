@@ -1,9 +1,9 @@
 ﻿
 let bot = {
-    name: "Charly",
+    name: "Carol",
     process: "Order-Books",
     type: "Connectivity",
-    version: "0.0.1",
+    version: "1.0.0",
     devTeam: "AA Masters" 
 };
 
