@@ -1,14 +1,8 @@
-﻿
-
-
-exports.newPloniexOrderBooks = function newPloniexOrderBooks(BOT) {
+﻿exports.newInterval = function newInterval(BOT, UTILITIES, AZURE_FILE_STORAGE, DEBUG_MODULE, MARKETS_MODULE, POLONIEX_CLIENT_MODULE) {
 
     let bot = BOT;
-    const ROOT_DIR = '../';
 
-    const INTERVAL_LAPSE = 60 * 1000;
-
-    const MODULE_NAME = "Poloniex Order Books";
+    const MODULE_NAME = "Interval";
     const LOG_INFO = false;
 
     const EXCHANGE_NAME = "Poloniex";
@@ -19,11 +13,6 @@ exports.newPloniexOrderBooks = function newPloniexOrderBooks(BOT) {
 
     const ORDER_BOOK_DEPTH = 100000;    // This is the max amount of BIDs or ASKs we want the Exchange API to return us from each market. 
 
-    const MARKETS_MODULE = require(ROOT_DIR + 'Markets');
-
-    const PloniexClient = require(ROOT_DIR + 'Poloniex API Client');
-
-    const DEBUG_MODULE = require(ROOT_DIR + 'Debug Log');
     const logger = DEBUG_MODULE.newDebugLog();
     logger.fileName = MODULE_NAME;
     logger.bot = bot;
@@ -35,18 +24,13 @@ exports.newPloniexOrderBooks = function newPloniexOrderBooks(BOT) {
 
     let markets;
 
-    const AZURE_FILE_STORAGE = require(ROOT_DIR + 'Azure File Storage');
     let azureFileStorage = AZURE_FILE_STORAGE.newAzureFileStorage(bot);
 
-    const UTILITIES = require(ROOT_DIR + 'Utilities');
     let utilities = UTILITIES.newUtilities(bot);
-
-    const SHUTDOWN_EVENT = require(ROOT_DIR + 'Azure Web Job Shutdown');
-    let shutdownEvent = SHUTDOWN_EVENT.newShutdownEvent(bot);
 
     return poloniexOrderBooks;
 
-    function initialize(callBackFunction) {
+    function initialize(yearAssigend, monthAssigned, callBackFunction) {
 
         try {
 
@@ -54,7 +38,7 @@ exports.newPloniexOrderBooks = function newPloniexOrderBooks(BOT) {
             console.log(logText);
             logger.write(logText);
 
-            poloniexApiClient = new PloniexClient();
+            poloniexApiClient = new POLONIEX_CLIENT_MODULE();
 
             azureFileStorage.initialize();
 
@@ -79,86 +63,69 @@ exports.newPloniexOrderBooks = function newPloniexOrderBooks(BOT) {
 
         try {
 
-            let intervalId = setInterval(requestNewData, INTERVAL_LAPSE); 
-
-            requestNewData(); // The first execution we do it without waiting for the interval call.
+            requestNewData(); 
 
             function requestNewData() {
 
                 try {
 
-                    const logText = "[INFO] start - Entering function 'requestNewData' , next execution in " + INTERVAL_LAPSE / 1000 / 60 + " minutes.";
+                    const logText = "[INFO] start - Entering function 'requestNewData'";
                     console.log(logText);
                     logger.write(logText);
 
-                    if (shutdownEvent.isShuttingDown() === false) {
+                    currentDate = new Date();
 
-                        currentDate = new Date();
+                    getOrderBookFromExchangeApi();
 
-                        getOrderBookFromExchangeApi();
+                    function getOrderBookFromExchangeApi() {
 
-                        function getOrderBookFromExchangeApi() {
+                        poloniexApiClient.returnOrderBooks(ORDER_BOOK_DEPTH, onReturnOrderBooks);
 
-                            poloniexApiClient.returnOrderBooks(ORDER_BOOK_DEPTH, onReturnOrderBooks);
+                    }
 
-                        }
+                    function onReturnOrderBooks(err, apiResponse) {
 
-                        function onReturnOrderBooks(err, apiResponse) {
+                        try {
 
-                            try {
+                            if (err || apiResponse.error !== undefined) {
+                                try {
 
-                                if (err || apiResponse.error !== undefined) {
-                                    try {
+                                    if (err.message.indexOf("ETIMEDOUT") > 0) {
 
-                                        if (err.message.indexOf("ETIMEDOUT") > 0) {
-
-                                            const logText = "[WARN] requestNewData - onReturnOrderBooks - Timeout reached while trying to access the Exchange API.";
-                                            console.log(logText);
-                                            logger.write(logText);
-
-                                            /* We try to reconnect to the exchange and fetch the data again. */
-
-                                            getOrderBookFromExchangeApi();
-
-                                        } else {
-                                            const logText = "[ERROR] requestNewData - onReturnOrderBooks - err.message.indexOf(ETIMEDOUT) <= 0 ' ERROR : " + err.message;
-                                            console.log(logText);
-                                            logger.write(logText);
-                                            return;
-                                        }
-
-                                    } catch (err) {
-                                        const logText = "[ERROR] requestNewData - onReturnOrderBooks ' RECEIVED ERROR : " + apiResponse.error;
+                                        const logText = "[WARN] requestNewData - onReturnOrderBooks - Timeout reached while trying to access the Exchange API.";
                                         console.log(logText);
                                         logger.write(logText);
+
+                                        /* We try to reconnect to the exchange and fetch the data again. */
+
+                                        getOrderBookFromExchangeApi();
+
+                                    } else {
+                                        const logText = "[ERROR] requestNewData - onReturnOrderBooks - err.message.indexOf(ETIMEDOUT) <= 0 ' ERROR : " + err.message;
+                                        console.log(logText);
+                                        logger.write(logText);
+                                        return;
                                     }
-                                    return;
 
-                                } else {
-                                    processNextMessage(apiResponse);
+                                } catch (err) {
+                                    const logText = "[ERROR] requestNewData - onReturnOrderBooks ' RECEIVED ERROR : " + apiResponse.error;
+                                    console.log(logText);
+                                    logger.write(logText);
                                 }
+                                return;
 
-                            } catch (err) {
-
-                                const logText = "[ERROR] requestNewData - onReturnOrderBooks ' ERROR : " + err.message;
-                                console.log(logText);
-                                logger.write(logText);
-
+                            } else {
+                                processNextMessage(apiResponse);
                             }
+
+                        } catch (err) {
+
+                            const logText = "[ERROR] requestNewData - onReturnOrderBooks ' ERROR : " + err.message;
+                            console.log(logText);
+                            logger.write(logText);
+
                         }
-
-
                     }
-                    else {
-
-                        clearInterval(intervalId);
-
-                        const logText = "[INFO] requestNewData - Terminating Set Interval - About to exit gracefully the process. ";
-                        console.log(logText);
-                        logger.write(logText);
-
-                    }
-
 
                 } catch (err) {
 

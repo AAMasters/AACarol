@@ -1,0 +1,34 @@
+{
+  "bot": {
+    "name": "Carol",
+    "type": "Extraction",
+    "version": "1.0.0",
+    "devTeam": "AA Masters"
+  },
+  "processes": [
+    {
+      "name": "Poloniex-Order-Books",
+      "description": "Produces a data-set with a snapshot of all markets order books every minute.",
+      "startMode": {
+        "allMonths": {
+          "run": "false",
+          "minYear": "",
+          "maxYear": ""
+        },
+        "oneMonth": {
+          "run": "false",
+          "year": "",
+          "month": ""
+        },
+        "noTime": {
+          "run": "true"
+        }
+      },
+      "intervalLapse": 60000,
+      "intervalMaxLoops": 0
+    }
+  ]
+}
+
+
+
