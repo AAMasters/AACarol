@@ -1,10 +1,10 @@
 # I'm Carol, an AA e-Bot!
 
 ### My Product
-I get take a snapshot of order books every minute, and store the info in a standardized dataset.
+I take a snapshot of order books every minute, and store the info in a standardized dataset.
 
 ### Ideal for
-Fundamental dataset for identifying support and resistance levels and analyzing capital flows across assets and markets.
+My dataset is instrumental for identifying support and resistance levels, analyzing capital flows across assets and markets and for building indicators that require fresh and dynamic info about what traders are doing all over the place.
 
 ### Details
 
