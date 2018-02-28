@@ -10,21 +10,21 @@ My dataset is instrumental for identifying support and resistance levels, analyz
 
 | **Name** | **Type** | **Version** | **Release Date** | **Current dataSet** |
 |----------|----------|----------|----------|----------|
-| Carol |Extraction | 1.0 | Feb 2018 | dataSet.V1 |
+| Carol |Extraction | 1.0 | 28 Feb 2018 | dataSet.V1 |
 
 # My Product
 
 ### Current Dataset Scope
 * **Exchanges**: Poloniex
 * **Markets**: All available pairs.
-* **Range**: 28 FEB 2018 – Current Time (-0 to 59 secs)
+* **Range**: 28 Feb 2018 – Current Time (-0 to 59 secs)
 
 ### Current Dataset
 * **Version:** dataSet.V1
 * **Update Frequency**: 1 minute
 * **Cloud Output Location:** Carol > dataSet.V1
 * **Folder Structure Tree**: ExchangeName > Year > Month > Day > Hour > Minute
-* **Files Structure**: One .json file per pair (e.g.: BTC_BCH.json, BTC_BCN.json, ... , ETH_BCH, ETH_BCN, etc.) stored at the MINUTE level of the Folder Tree Structure
+* **Files Structure**: One .json file per pair (e.g.: BTC_BCH.json, BTC_BCN.json, ... , ETH_BCH, ETH_BCN, etc.) stored at the Minute level of the Folder Tree Structure
 * **In-File Record Structure**:
   * All asks:
     * Order Rate, decimal;
