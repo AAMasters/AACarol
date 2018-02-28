@@ -1,4 +1,4 @@
-﻿exports.newInterval = function newInterval(BOT, UTILITIES, AZURE_FILE_STORAGE, DEBUG_MODULE, MARKETS_MODULE, POLONIEX_CLIENT_MODULE) {
+﻿exports.newInterval = function newInterval(BOT, UTILITIES, FILE_STORAGE, DEBUG_MODULE, MARKETS_MODULE, EXCHANGE_CLIENT_MODULE) {
 
     let bot = BOT;
 
@@ -24,7 +24,7 @@
 
     let markets;
 
-    let azureFileStorage = AZURE_FILE_STORAGE.newAzureFileStorage(bot);
+    let fileStorage = FILE_STORAGE.newAzureFileStorage(bot);
 
     let utilities = UTILITIES.newUtilities(bot);
 
@@ -38,9 +38,9 @@
             console.log(logText);
             logger.write(logText);
 
-            poloniexApiClient = new POLONIEX_CLIENT_MODULE();
+            exchangeApiClient = new EXCHANGE_CLIENT_MODULE();
 
-            azureFileStorage.initialize();
+            fileStorage.initialize("Carol");
 
             markets = MARKETS_MODULE.newMarkets(bot);
             markets.initialize(callBackFunction);
@@ -79,7 +79,7 @@
 
                     function getOrderBookFromExchangeApi() {
 
-                        poloniexApiClient.returnOrderBooks(ORDER_BOOK_DEPTH, onReturnOrderBooks);
+                        exchangeApiClient.returnOrderBooks(ORDER_BOOK_DEPTH, onReturnOrderBooks);
 
                     }
 
@@ -149,11 +149,11 @@
                     let rawFilePath = RAW_FOLDER_NAME + '/' + dateForPath;
                     let aggregatedFilePath = AGG_FOLDER_NAME + '/' + dateForPath;
 
-                    utilities.createFolderIfNeeded(rawFilePath, azureFileStorage, onFirstFolderCreated);
+                    utilities.createFolderIfNeeded(rawFilePath, fileStorage, onFirstFolderCreated);
 
                     function onFirstFolderCreated() {
 
-                        utilities.createFolderIfNeeded(aggregatedFilePath, azureFileStorage, processEachMarket);
+                        utilities.createFolderIfNeeded(aggregatedFilePath, fileStorage, processEachMarket);
 
                     }
 
@@ -179,7 +179,7 @@
 
                                     let marketId = pMarketId;
 
-                                    let fileName = '' + EXCHANGE_ID + '_' + marketId + '.json';
+                                    let fileName = marketName + '.json';
 
                                     let needSeparator;
                                     let separator;
@@ -263,7 +263,7 @@
                                         fileContent = fileContent + ']';
                                         fileContent = fileContent + ']';
 
-                                        azureFileStorage.createTextFile(rawFilePath, fileName, fileContent + '\n', onFirstFileCreated);
+                                        fileStorage.createTextFile(rawFilePath, fileName, fileContent + '\n', onFirstFileCreated);
 
                                         function onFirstFileCreated() {
 
@@ -326,7 +326,7 @@
                                         fileContent = fileContent + ']';
                                         fileContent = fileContent + ']';
 
-                                        azureFileStorage.createTextFile(aggregatedFilePath, fileName, fileContent + '\n', onSecondFileCreated);
+                                        fileStorage.createTextFile(aggregatedFilePath, fileName, fileContent + '\n', onSecondFileCreated);
 
                                         function onSecondFileCreated() {
 

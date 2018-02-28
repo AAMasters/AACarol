@@ -3,11 +3,12 @@
     "name": "Carol",
     "type": "Extraction",
     "version": "1.0.0",
-    "devTeam": "AA Masters"
+    "devTeam": "AA Masters",
+    "dataSetVersion": "dataSet.V1"
   },
   "processes": [
     {
-      "name": "Poloniex-Order-Books",
+      "name": "Order-Books",
       "description": "Produces a data-set with a snapshot of all markets order books every minute.",
       "startMode": {
         "allMonths": {
@@ -25,7 +26,7 @@
         }
       },
       "intervalLapse": 60000,
-      "intervalMaxLoops": 0
+      "intervalMaxLoops": -1
     }
   ]
 }
