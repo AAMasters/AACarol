@@ -1,10 +1,10 @@
 # I'm Carol, an AA e-Bot!
 
 ### My Specialty
-I take a snapshot of order books of each market every minute, and store the info in separate files per market --every minute.
+I take a snapshot of order books of each market every minute, and store the info in separate files per market.
 
 ### Ideal for
-My dataset is instrumental for identifying support and resistance levels, analyzing capital flows across markets, building indicators that require fresh and dynamic info about the positions traders taking, etc.
+My dataset is instrumental for identifying support and resistance levels, analyzing capital flows across markets, building indicators that require fresh and dynamic info about the positions traders are taking and their changes over time, etc.
 
 ### Details
 
@@ -23,7 +23,7 @@ My dataset is instrumental for identifying support and resistance levels, analyz
 * **Version:** dataSet.V1
 * **Update Frequency**: 1 minute
 * **Cloud Output Location:** Carol > dataSet.V1
-* **Folder Structure Tree**: ExchangeName > Year > Month > Day > Hour > Minute
+* **Folder Structure Tree**: ExchangeName > Output > Order-Books > Year > Month > Day > Hour > Minute
 * **Files Structure**: One .json file per pair (e.g.: BTC_BCH.json, BTC_BCN.json, ... , ETH_BCH, ETH_BCN, etc.) stored at the Minute level of the Folder Tree Structure
 * **In-File Record Structure**:
   * All asks:
