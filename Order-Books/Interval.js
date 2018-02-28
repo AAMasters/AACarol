@@ -140,7 +140,7 @@
 
                     let dateForPath = currentDate.getUTCFullYear() + '/' + utilities.pad(currentDate.getUTCMonth() + 1, 2) + '/' + utilities.pad(currentDate.getUTCDate(), 2) + '/' + utilities.pad(currentDate.getUTCHours(), 2) + '/' + utilities.pad(currentDate.getUTCMinutes(), 2);
 
-                    let filePath = bot.name + '/' + bot.dataSetVersion + '/' + EXCHANGE_NAME + '/' + 'Output' + '/' + bot.process + '/' + dateForPath;
+                    let filePath = bot.name + '/' + bot.dataSetVersion + '/' + 'Output' + '/' + bot.process + '/' + EXCHANGE_NAME + '/' + dateForPath;
 
                     utilities.createFolderIfNeeded(filePath, fileStorage, processEachMarket);
 
