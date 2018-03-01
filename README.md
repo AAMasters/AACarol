@@ -35,8 +35,8 @@ My dataset is instrumental for identifying support and resistance levels, analyz
 * **In-File Record Example**: 
   * [[[0.11590310,1.45427416],[0.11590313,0.01649073],...,[0.11593099,0.386487]],[[0.29624053,3.50351002],[0.29628236,0.0266],...,[0.01500000,1.2933]]]
 
-### Plotter Output
-No plotter.
+### Compatible Plotters
+Not applicable.
 
 ### Dependencies
 None.
