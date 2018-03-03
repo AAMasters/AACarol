@@ -23,7 +23,7 @@ My dataset is instrumental for identifying support and resistance levels, analyz
 * **Version:** dataSet.V1
 * **Update Frequency**: 1 minute
 * **Cloud Output Location:** Carol > dataSet.V1
-* **Folder Structure Tree**: ExchangeName > Output > Order-Books > Year > Month > Day > Hour > Minute
+* **Folder Structure Tree**: Output > Order-Books > ExchangeName > Year > Month > Day > Hour > Minute
 * **Files Structure**: One .json file per pair (e.g.: BTC_BCH.json, BTC_BCN.json, ... , ETH_BCH, ETH_BCN, etc.) stored at the Minute level of the Folder Tree Structure
 * **In-File Record Structure**:
   * All asks:
@@ -35,8 +35,8 @@ My dataset is instrumental for identifying support and resistance levels, analyz
 * **In-File Record Example**: 
   * [[[0.11590310,1.45427416],[0.11590313,0.01649073],...,[0.11593099,0.386487]],[[0.29624053,3.50351002],[0.29628236,0.0266],...,[0.01500000,1.2933]]]
 
-### Plotter Output
-No plotter.
+### Compatible Plotters
+Not applicable.
 
 ### Dependencies
 None.
