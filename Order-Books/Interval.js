@@ -132,9 +132,7 @@
 
                 try {
 
-                    const logText = "[INFO] start - Entering function 'processNextMessage'";
-                    console.log(logText);
-                    logger.write(logText);
+                    logger.write("[INFO] start - Entering function 'processNextMessage'");
 
                     let orderBooksMessage = messageReceived;
 
@@ -146,7 +144,15 @@
 
                     function processEachMarket() {
 
+                        const logText = "[INFO] 'processEachMarket'"
+                        console.log(logText);
+                        logger.write(logText);
+
                         for (let marketName in orderBooksMessage) {
+
+                            const logText = "[INFO] 'processEachMarket' -> " + marketName;
+                            console.log(logText);
+                            logger.write(logText);
 
                             let market = orderBooksMessage[marketName];
 
@@ -240,14 +246,21 @@
                                 fileContent = fileContent + ']';
                                 fileContent = fileContent + ']';
 
+                                logger.write("[INFO] About to create File @ " + filePath + "/" + fileName);
+
                                 fileStorage.createTextFile(filePath, fileName, fileContent + '\n', onFileCreated);
 
-                                function onFileCreated() {
+                                function onFileCreated(created) {
 
-                                    const logText = "[INFO] File Created @ " + filePath + "/" + fileName;
-                                    console.log(logText);
-                                    logger.write(logText);
+                                    if (created === true) {
 
+                                        logger.write("[INFO] File Created @ " + filePath + "/" + fileName);
+
+                                    } else {
+
+                                        logger.write("[INFO] File NOT Created due to Storage Error @ " + filePath + "/" + fileName);
+
+                                    }
                                 }
 
                             } catch (err) {
