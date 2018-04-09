@@ -1,4 +1,4 @@
-# I'm Carol, an AA e-Bot!
+# I'm Carol, an AA i-Bot!
 
 ### My Specialty
 I take a snapshot of order books of each market every minute, and store the info in separate files per market.
